@@ -14,6 +14,9 @@
 ## UDP Client Side
 ![image](https://user-images.githubusercontent.com/14197913/162379027-2c001e00-680c-46b2-825d-a34cdde4751f.png)
 
+## Runtime case
+![image](https://user-images.githubusercontent.com/14197913/162383246-73cce7c7-351e-4245-92a8-082024ad6344.png)
+
 ## Build tips
 - visual studio 2019 +
 - wpf (net core 5.0)
