@@ -1,0 +1,44 @@
+﻿<Window x:Class="UdpClientDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UdpClientDemo"
+        mc:Ignorable="d"
+        Title="UDP_Client" Height="400" Width="615" WindowStartupLocation="CenterScreen" Initialized="OnMainInitialized" ResizeMode="NoResize" WindowStyle="ToolWindow" KeyUp="OnKeyboardEvent">
+    <Grid Background="#FF8E9A96">
+        <Button Content="Send" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Height="26" Width="60" Click="OnSendMsgClicked"/>
+        <TextBox x:Name="MsgToSend" HorizontalAlignment="Right" Height="26" Margin="0,0,80,10" Text="Hello, I am UDP Client" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="330" VerticalContentAlignment="Center"/>
+        <TabControl x:Name="NetOperation" Height="169" Width="180" VerticalAlignment="Top" Margin="10,8,0,0" HorizontalAlignment="Left" Padding="0,0,0,0" SelectedIndex="0">
+            <TabItem Header="TabItem" Height="0" Margin="0,0,0,0">
+                <Grid x:Name="ConnectPage" Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Background="#FFC8C8C8" Margin="0,20,0,0" VerticalAlignment="Top">
+                        <Label Content="IpAddr" Height="26" Background="#FF646464"/>
+                        <TextBox x:Name="RemoteHostNameLable" Text="localhost" TextWrapping="Wrap" Height="26" VerticalContentAlignment="Center" Background="#FFCCCCCC"/>
+                        <Label Content="Port" Height="26" Background="#FF646464"/>
+                        <TextBox Text="7778" TextWrapping="Wrap" Height="26" VerticalContentAlignment="Center" Background="#FFCCCCCC"/>
+                        <Button Content="Connect" Width="80" Height="26" Click="OnSendConnectClicked" Margin="0,10,0,5" Focusable="False"/>
+                    </StackPanel>
+                    <Border BorderThickness="1" BorderBrush="Black" Width="15" Height="15" Background="#FFEA0A0A" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="5,5,5,5"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="TabItem" Height="0" Margin="0,0,0,0">
+                <Grid x:Name="StatusPage" Background="#FFE5E5E5">
+                    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="#FFCCCCCC" Margin="0,20,0,0">
+                        <Label Content="Remote" Height="26" Background="{x:Null}" VerticalContentAlignment="Center" FontSize="12"/>
+                        <Label x:Name="RemoteAddrLable" Content="10.125.14.26:37778" Background="#FFF1F1F1" Height="26" VerticalContentAlignment="Center"/>
+                        <Label Content="Local" Height="26" Background="{x:Null}" VerticalContentAlignment="Center" FontSize="12"/>
+                        <Label x:Name="LocalAddrLable" Content="127.0.0.1:7778" Background="#FFF1F1F1" Height="26" VerticalContentAlignment="Center"/>
+                        <Button Content="DisConnect" Width="80" Height="26" Margin="0,10,0,5" Click="OnDisConnectBtn" Focusable="False"/>
+                    </StackPanel>
+                    <Border BorderThickness="1" BorderBrush="Black" Width="15" Height="15" Background="#FF72ED06" HorizontalAlignment="Left" VerticalAlignment="Top" CornerRadius="5,5,5,5"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <ListBox x:Name="MainContent" HorizontalAlignment="Right" Width="400" Margin="0,10,10,47"/>
+
+    </Grid>
+</Window>

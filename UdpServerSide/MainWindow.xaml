@@ -1,0 +1,27 @@
+﻿<Window x:Class="UdpServerSide.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UdpServerSide"
+        mc:Ignorable="d"
+        Title="UDP_Server" Height="400" Width="615" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Initialized="OnMainInitialized" KeyUp="OnKeyboardEvent">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Margin="10,10,10,10" Orientation="Horizontal" VerticalAlignment="Top">
+            <Label Content="Server Port :" Height="26"/>
+            <TextBox x:Name="listenPort" Height="26" Text="7778" TextWrapping="Wrap" Width="100" Background="#FFA8A8A8" VerticalContentAlignment="Center" Margin="10,0,30,0"/>
+            <Button Content="Listen" Height="26" Width="60" Margin="9,0,40,0" Click="OnListenBtnClicked" Focusable="False"/>
+            <Label Content="Client :" Height="26"/>
+            <TextBox x:Name="ClientInfoLable" Height="26" Text="Server Not Listening" TextWrapping="Wrap" Width="200" Background="#FFA8A8A8" VerticalContentAlignment="Center" IsEnabled="False"/>
+
+        </StackPanel>
+        <StackPanel Margin="10,0,10,10" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <Button Content="Clear" Height="26" Width="60" Click="OnClearContentClicked" Focusable="False"/>
+
+            <TextBox x:Name="MsgToSend" Text="Hello Client" TextWrapping="Wrap" Height="26" VerticalContentAlignment="Center" Background="#FFBEBEBE" Width="440" Margin="10,0,10,0"/>
+            <Button Content="Send" Height="26" Width="60" Click="OnSendMsgClicked" Focusable="False"/>
+        </StackPanel>
+        <ListBox x:Name="MainContent" Margin="10,50,10,50" Background="#FFBEBEBE"/>
+
+    </Grid>
+</Window>
