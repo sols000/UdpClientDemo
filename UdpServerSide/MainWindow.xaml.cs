@@ -46,6 +46,8 @@ namespace UdpServerSide
         {
 
             IPEndPoint ep = new IPEndPoint(IPAddress.Any, port);
+            //IPEndPoint ep = IPEndPoint.Parse("10.76.12.221:7778"); 
+            //IPEndPoint ep = IPEndPoint.Parse("10.76.14.200:7778");
             try
             {
                 udpClient = new UdpClient(ep);

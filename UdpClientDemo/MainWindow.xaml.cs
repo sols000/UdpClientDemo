@@ -46,15 +46,7 @@ namespace UdpClientDemo
 
         private int ConnectUdp(string hostName, int port)
         {
-            try
-            {
-                mUdpClient = new UdpClient();
-            }
-            catch (SocketException excpt)
-            {
-                Trace.TraceError("SocketException:{0}", excpt.Message);
-                return -3;
-            }
+
             IPHostEntry host;
             try
             {
@@ -65,12 +57,17 @@ namespace UdpClientDemo
                 Trace.TraceError($"Con not GetHostEntry of {hostName} ,Error:{ ResE.Message}");
                 return -1;
             }
-
-            Trace.TraceInformation("HostEntry Found {0} Addr, ", host.AddressList.Length);
-
-            foreach (var ipaddr in host.AddressList)
+            if (host.AddressList.Length < 1)
             {
-                Trace.TraceInformation("Addr Found:{0}", ipaddr.ToString());
+                Trace.TraceWarning("HostEntry Found {0} Addr, ", host.AddressList.Length);
+                return -3;
+            }
+            else
+            {
+                foreach(var ipAddr in host.AddressList)
+                {
+                    Trace.TraceInformation("Find IpAddr:"+ipAddr.ToString());
+                }
             }
 
             try
@@ -83,12 +80,30 @@ namespace UdpClientDemo
                 return -2;
             }
 
+            return 0;
+        }
+
+        private int ConnectUdpWithIp(IPAddress addr, int port)
+        {
+            try
+            {
+                mUdpClient.Connect(addr, port);
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Connect With Ip Error:{e.Message}");
+                return -4;
+            }
+            return 0;
+        }
+
+        int BeginReceive()
+        {
             sendUdpMessage("Connect");
 
             UdpState state = new UdpState();
             state.u = mUdpClient;
             state.e = null;
-
             try
             {
                 mUdpClient.BeginReceive(new AsyncCallback(ReceiveCallBack), state);
@@ -98,9 +113,9 @@ namespace UdpClientDemo
                 Trace.TraceError("BeginReceive Error:{0}", e.Message);
                 return -4;
             }
-
             return 0;
         }
+
 
         private void ReceiveCallBack(IAsyncResult ar)
         {
@@ -147,17 +162,53 @@ namespace UdpClientDemo
             });
         }
 
-        private void OnSendConnectClicked(object sender, RoutedEventArgs e)
+        void ConnectUdpNetWork()
         {
             string strHostName = RemoteHostNameLable.Text;
+            string strServerPort = ServerPortLable.Text;
+            int portNumber = int.Parse(strServerPort);
+            //Test if it's a ip addr like : 192.168.15.17
+            IPAddress tempIpAddr = null;
 
-            int res = ConnectUdp(strHostName, 7778);
+            //new a udpclient
+            try
+            {
+                mUdpClient = new UdpClient();
+                tempIpAddr = IPAddress.Parse(strHostName);
+            }
+            catch (Exception excpt)
+            {
+                Trace.TraceError("SocketException:{0}", excpt.Message);
+            }
+
+            int res;
+            if (tempIpAddr != null)
+            {
+                //for ip addr
+                res = ConnectUdpWithIp(tempIpAddr, portNumber);
+            }
+            else
+            {
+                //for host name
+                res = ConnectUdp(strHostName, portNumber);
+            }
+            if (res < 0)
+            {
+                return;
+            }
             Trace.TraceInformation("Connect Udp Res:{0}", res);
+            BeginReceive();
+
+        }
+
+        private void OnSendConnectClicked(object sender, RoutedEventArgs e)
+        {
+            ConnectUdpNetWork();
         }
 
         int sendUdpMessage(string strMsg)
         {
-            if(mUdpClient == null)
+            if (mUdpClient == null)
             {
                 Trace.TraceWarning("mUdpClient is null");
                 return -3;
